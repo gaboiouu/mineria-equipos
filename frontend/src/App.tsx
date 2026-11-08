@@ -28,15 +28,16 @@ export default function App() {
       const [list, t] = await Promise.all([api.list(), api.types()]);
       setEquipment(list.data);
       setTypes(t);
+      setHealth("ok");
       setError("");
     } catch (e) {
+      setHealth("sin conexion");
       setError(errMsg(e));
     }
   }
 
   useEffect(() => {
     load();
-    api.health().then(() => setHealth("ok")).catch(() => setHealth("sin conexion"));
   }, []);
 
   async function submit(e: FormEvent) {
