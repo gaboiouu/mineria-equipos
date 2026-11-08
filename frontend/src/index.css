@@ -1,0 +1,81 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: #f4f5f7;
+  color: #1f2933;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+input,
+select,
+button {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.red {
+  background: #fde2e2;
+  color: #b42318;
+}
+
+.green {
+  background: #dcf5e4;
+  color: #1a7f3c;
+}
+
+.error {
+  background: #fde2e2;
+  color: #b42318;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+section {
+  margin-top: 24px;
+}
