@@ -9,5 +9,4 @@ prev="$(cat "$ROOT_DIR/.deploy-state/frontend_prev" 2>/dev/null || true)"
 
 export VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID
 cd "$ROOT_DIR"
-vercel rollback "https://$prev" || fail "Fallo el rollback del frontend. Restauralo a mano desde el panel de Vercel."
-ok "Frontend restaurado a https://$prev"
+vercel rollback "https://$prev" --scope gaboiouus-projects --token "$VERCEL_TOKEN" || fail "Fallo el rollback del frontend. Restauralo a mano desde el panel de Vercel."ok "Frontend restaurado a https://$prev"
