@@ -101,9 +101,20 @@ El script corre seis pasos y se detiene en el primero que falle:
 3. Aplica las migraciones pendientes sobre la base de producción.
 4. Dispara el deploy del backend con el hook de Render.
 5. Publica el frontend con `vercel deploy --prod`.
-6. Consulta `/health` con reintentos hasta que el commit servido coincida con `HEAD`, y comprueba que el frontend responde.
+6. Consulta `/health` con reintentos hasta que el commit servido coincida con `HEAD`, y comprueba que el frontend responde. Si falla, ejecuta el rollback.
 
-Ante cualquier fallo imprime el paso y el motivo, y sale con código distinto de 0. Es idempotente: las migraciones se registran en `schema_migrations`, así que ejecutarlo varias veces no rompe nada. Lo probé forzando tres fallos (variable faltante, árbol sucio y hook inválido), y en los tres termina con código 1.
+Ante cualquier fallo imprime el paso y el motivo, y sale con código distinto de 0. Es idempotente: las migraciones se registran en `schema_migrations`, así que ejecutarlo varias veces no rompe nada.
+
+**Rollback:** si falla el health check final, el script restaura el despliegue anterior del frontend en Vercel (el plan Hobby solo permite volver al inmediatamente anterior) y termina con código 1. El backend no se revierte automáticamente: si el build falla, Render conserva la versión activa, pero un fallo posterior del health check requeriría restaurarla desde su panel.
+
+**Pruebas de fallo realizadas** (todas terminan con código 1):
+
+- Variable de entorno faltante.
+- Cambios sin commit o commits sin subir.
+- Deploy hook inválido.
+- Health check fallido, que activa el rollback.
+
+Para reproducir este último: `HEALTH_ATTEMPTS=2 BACKEND_URL=https://mineria-equipos-api.onrender.com/x ./deploy.sh`.
 
 ### Variables de entorno
 
