@@ -16,6 +16,6 @@ load_env() {
     key="${key//[[:space:]]/}"
     value="${value%"${value##*[![:space:]]}"}"
     [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
-    if [ -z "${!key:-}" ]; then export "$key=$value"; fi
+    if [ -z "${!key+x}" ]; then export "$key=$value"; fi
   done < "$file"
 }
