@@ -6,7 +6,11 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         await pool.query("SELECT 1");
-        res.json({ status: "ok", database: "connected" });
+        res.json({
+            status: "ok",
+            database: "connected",
+            commit: process.env.RENDER_GIT_COMMIT || null,
+        });
     } catch (err) {
         res.status(500).json({ status: "error", database: "disconnected" });
     }
