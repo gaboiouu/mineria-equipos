@@ -9,8 +9,7 @@ EXPECTED_COMMIT="${EXPECTED_COMMIT:-}"
 BACKEND_URL="${BACKEND_URL%/}"
 FRONTEND_PUBLIC_URL="${FRONTEND_PUBLIC_URL%/}"
 
-# Backend: /health con reintentos (Render gratis tarda en despertar y en desplegar)
-attempts=40
+attempts="${HEALTH_ATTEMPTS:-40}"
 for i in $(seq 1 "$attempts"); do
   body="$(curl -fsS --max-time 25 "$BACKEND_URL/health" 2>/dev/null || true)"
   if echo "$body" | grep -q '"status":"ok"'; then

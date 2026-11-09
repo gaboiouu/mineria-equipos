@@ -17,7 +17,13 @@ run_step build.sh
 run_step migrate.sh
 run_step deploy-backend.sh
 run_step deploy-frontend.sh
-run_step health-check.sh
+
+if ! bash scripts/health-check.sh; then
+  printf '\n\033[1;33m El health check fallo. Intentando rollback...\033[0m\n' >&2
+  bash scripts/rollback.sh || true
+  printf '\n\033[1;31m DESPLIEGUE FALLIDO en el paso: health-check.sh (se intento rollback)\033[0m\n' >&2
+  exit 1
+fi
 
 printf '\n\033[1;32m DESPLIEGUE COMPLETADO en %ss\033[0m\n' "$(( $(date +%s) - START ))"
 printf ' Frontend: %s\n Backend:  %s/health\n' "$FRONTEND_PUBLIC_URL" "$BACKEND_URL"
